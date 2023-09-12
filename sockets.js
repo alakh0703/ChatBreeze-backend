@@ -35,7 +35,16 @@ function listen(io) {
 
       if(data.room != ''){
         const y = roomNames.find((m) => m.room == data.room);
-        roomName = y.roomName;
+        if(y == undefined){
+          console.log("Room not found")
+          socket.emit('roomNotFound', {room: data.room});
+          return;
+        }
+        console.log("Y:", y)  
+        
+          roomName = y.roomName;
+
+        
         room = (data.room);
 
         console.log(roomName)
@@ -49,6 +58,9 @@ function listen(io) {
         }
         room = room.toString();
         roomName = data.roomName;
+      if(roomName == ''){
+        roomName = "Clan"
+      }
         console.log(roomName)
         rooms.push(room);
         const x = {room: room, roomName: data.roomName}
